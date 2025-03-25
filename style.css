@@ -1,14 +1,16 @@
 body{
   display:flex;
   flex-wrap: wrap;
-  background:rgb(3, 76, 106);
-  color:aliceblue;
+  background-image:url("Background.jpg");
+  background-size: auto;
+  color:rgb(12, 3, 27);
   text-shadow:
-  1px 1px 2px rgba(108, 194, 16, 0.955),
+  1px 1px 2px rgba(1, 68, 175, 0.955),
   0 0 1em rgb(255, 225, 0),
-  0 0 0.2em rgb(237, 137, 5);
+  0 0 0.2em rgb(10, 206, 39);
   background-attachment: fixed;
   font-size:18px;
+  font-family: Arial, sans-serif;
 }
 
 ul {
@@ -65,6 +67,7 @@ aside{
   display:block;
   flex-direction: column;
   background: rgb(74, 72, 72);
+  color:aliceblue;
   width: fill;
   height: fill;
   border-radius: 5px;
@@ -77,7 +80,9 @@ aside{
 }
 
 button{
-  border-radius: 5px;
+  font-family: 'Comic Sans MS', cursive;
+  margin:15px;
+  border-radius: 10px;
   size:20px;
   background: radial-gradient(yellow,lightyellow) ;
 }
@@ -95,17 +100,7 @@ ul {
 input{
   margin: 5px;
   padding: 5px;
-}
-.music{
-  display: subgrid;
-  flex-direction: row;
-}
-audio{
-  float: right;
-}
-.txt{
-  border-radius: 30px;
-  border:#072bc8 2px solid;
+  border-radius: 10px;
 }
 img{
   margin:4px;
@@ -140,6 +135,7 @@ iframe{
   0 0 0.2em rgb(104, 11, 176);
   background-attachment: fixed;
   }
+
   .card{
     background-color: darkgrey;
   }

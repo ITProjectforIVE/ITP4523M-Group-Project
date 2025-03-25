@@ -4,46 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <script src="myscript.js"></script>
     <title>Management System</title>
 </head>
 <body>
     <header>
+      <div class="navbar">
+        <ul>
+            <li><a  href="index.html">Home</a></li>
+            <li><a  href="Profile.html">Profile</a></li>
+            <li><a  href="Stuff.html">Stuff</a></li>
+            <li><a  href="order.html">Order</a></li>
+            <li><a  href="customer.html">Customer</a></li>
+        </ul>  
+    </div>
+    <main>
         <h1>Management System</h1>
-        <nav>
-            <button onclick="showCustomerForm()">Customer</button>
-            <button onclick="showStaffPanel()">Staff</button>
-        </nav>
     </header>
     <main>
         <section id="customer-section" class="hidden">
-            <h2>Customer Order</h2>
+          <h2>Choose Identity</h2>
             <div class="card">
-            <form id="order-form">
-                <input type="text" placeholder="Customer Name" required>
-                <input type="password" placeholder="Password" required>
-                <input type="tel" placeholder="Telephone" required>
-                <input type="text" placeholder="Address" required>
-                <input type="text" placeholder="Company Name" required>
-                <button type="submit">Make Order</button>
-            </form>
-            <h3>View Orders</h3>
-            <button onclick="viewOrders()">Show Orders</button>
-            <div id="order-records"></div>
-            <h3>Update Profile</h3>
-            <form id="update-profile-form">
-                <input type="password" placeholder="New Password">
-                <input type="tel" placeholder="New Contact Number">
-                <input type="text" placeholder="New Address">
-                <button type="submit">Update Profile</button>
-            </form>
-          </div>
-        </section>
-        <section id="staff-section" class="hidden">
-            <h2>Staff Management</h2>
-            <button onclick="manageProducts()">Manage Products</button>
-            <button onclick="updateOrders()">Update Orders</button>
-        </section>
+              <nav>
+                  <button onclick="showCustomerForm()">Customer</button>
+                  <button onclick="showStaffPanel()">Staff</button>
+              </nav>
     </main>
 </body>
 </html>

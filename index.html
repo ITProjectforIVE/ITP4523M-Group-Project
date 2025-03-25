@@ -2,68 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>War Game Club</title>
+    <script src="script.js"></script>
+    <title>Management System</title>
 </head>
 <body>
-
-  <div class="navbar">
-    <ul>
-        <li><a  class="changePage" href="index.html">Home</a></li>
-        <li><a  class="changePage" href="HowToPlay.html">How to Play</a></li>
-        <li><a  class="changePage" href="AboutUs.html">About</a></li>
-        <li><a  class="changePage" href="SignUp.html">Sign Up</a></li>
-        <li><audio controls>
-        </audio>
-      </li>
-    </ul>
-  </div>
+    <header>
+        <h1>Management System</h1>
+        <nav>
+            <button onclick="showCustomerForm()">Customer</button>
+            <button onclick="showStaffPanel()">Staff</button>
+        </nav>
+    </header>
     <main>
-      <h1>
-        War game & Live Action Role Playing club 
-      </h1>
-      <h2>This is  the introduction to our war game  club.</h2>
-      <h2>Our war game design is based on World War II event!</h2>
-      <br />
-      <div class="card">
-        <h1> Western Front (Europe)</h1>
-        <iframe width="fill" height="fill" src="https://www.youtube.com/embed/7t08KKCRn5k?si=B-Gy_Xt7MwNNHNac" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>  
-          <h4><b>Role :</b></h4>
-            <h4>USA</h4>
-            <h4>UK</h4>
-            <h4>France</h4>
-            <h4>Germany</h4>
-            <h4>Italy</h4>
-            <button>Show Details </button> 
-        </div>
-        <div class="card">
-          <h1> Eastern Front (Europe)</h1>
-          <iframe width="fill" height="fill" src="https://www.youtube.com/embed/7t08KKCRn5k?si=B-Gy_Xt7MwNNHNac" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            <h4><b>Role :</b></h4>
-            <h4>Soviet Union</h4>
-            <h4>Germany</h4>
-            <h4>Finland</h4>
-            <button>Show Details </button> 
-        </div>
-        <div class="card">
-          <h1> Asia - Pacific War</h1>
-          <iframe width="350" height="300" src="https://www.youtube.com/embed/7t08KKCRn5k?si=B-Gy_Xt7MwNNHNac" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-          <iframe width="350" height="300" src="https://www.youtube.com/embed/xUPuoCf6OPM?si=J29D3YXm7fXuOzF5" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            <h4><b>Role :</b></h4>
-            <h4>USA</h4>
-            <h4>Soviet Union</h4>
-            <h4>Japan</h4>
-            <h4>China</h4>
-            <button>Show Details </button>        
-        </div>
-      <p>
-
-      </p>
-    </main>   
-   <footer>
-    search 
-   </footer>
+        <section id="customer-section" class="hidden">
+            <h2>Customer Order</h2>
+            <div class="card">
+            <form id="order-form">
+                <input type="text" placeholder="Customer Name" required>
+                <input type="password" placeholder="Password" required>
+                <input type="tel" placeholder="Telephone" required>
+                <input type="text" placeholder="Address" required>
+                <input type="text" placeholder="Company Name" required>
+                <button type="submit">Make Order</button>
+            </form>
+            <h3>View Orders</h3>
+            <button onclick="viewOrders()">Show Orders</button>
+            <div id="order-records"></div>
+            <h3>Update Profile</h3>
+            <form id="update-profile-form">
+                <input type="password" placeholder="New Password">
+                <input type="tel" placeholder="New Contact Number">
+                <input type="text" placeholder="New Address">
+                <button type="submit">Update Profile</button>
+            </form>
+          </div>
+        </section>
+        <section id="staff-section" class="hidden">
+            <h2>Staff Management</h2>
+            <button onclick="manageProducts()">Manage Products</button>
+            <button onclick="updateOrders()">Update Orders</button>
+        </section>
+    </main>
 </body>
 </html>

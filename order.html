@@ -2,36 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Management System</title>
     <link rel="stylesheet" href="style.css">
-    <script src="myscript.js"></script>
-    <title>News</title>
+    <script src="Order.js"></script>
 </head>
 <body>
     <div class="navbar">
-    <ul>
-        <li><a  href="index.html">Home</a></li>
-        <li><a  href="Profile.html">Profile</a></li>
-        <li><a  href="Stuff.html">Stuff</a></li>
-        <li><a  href="order.html">Order</a></li>
-        <li><a  href="customer.html">Customer</a></li>
-    </ul>  
+        <ul>
+            <li><a  href="index.html">Home</a></li>
+            <li><a  href="Profile.html">Profile</a></li>
+            <li><a  href="Staff.html">Staff</a></li>
+            <li><a  href="order.html">Order</a></li>
+            <li><a  href="customer.html">Customer</a></li>
+            <li><a  href="Report.html">Report</a></li>
+        </ul>  
     </div>
-        <main>
-            <h3>View Orders</h3>
-            <div class="card">
-            <button onclick="viewOrders()">Show Orders</button>
-            <div id="order-records"></div>
-            <h3>Update Profile</h3>
-            <form id="update-profile-form">
-                <input type="password" placeholder="New Password">
-                <input type="tel" placeholder="New Contact Number">
-                <input type="text" placeholder="New Address">
-                <button type="submit">Update Profile</button>
-            </form>
-        </div>
-        </main>
+    <main>
 
-</body>
-</html>
+    <h1>Order Management</h1>
+    <div class="card">
+    <table id="orders-table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Order Date</th>
+                <th>Product ID</th>
+                <th>Order Quantity</th>
+                <th>Total Amount ($)</th>
+                <th>Customer Name</th>
+                <th>Order Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+    <div class="message" id="message"></div>
+</div>
+</main>
+</body>    

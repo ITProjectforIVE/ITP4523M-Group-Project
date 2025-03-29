@@ -20,8 +20,10 @@ ul {
   overflow: hidden;
   background-color: #27272a;
   position:fixed;
-  top: 0;
   width: auto;
+  top:0;
+  left:0;
+  right:0;
 }
 
 li {
@@ -52,17 +54,6 @@ main{
     align-items:center;
 }
 
-aside{
-  height: 40px;
-  padding: 20px; 
-  margin: 20px;
-  justify-content: left;
-  align-items:left;
-}
-
-.Musicside{
-  background-color:(rgb(82, 79, 79));
-}
 .card { 
   display:block;
   flex-direction: column;
@@ -79,24 +70,46 @@ aside{
   padding: 10px;
 }
 
-button{
-  font-family: 'Comic Sans MS', cursive;
-  margin:15px;
-  border-radius: 10px;
-  size:20px;
-  background: radial-gradient(yellow,lightyellow) ;
+button {
+  background-color: #0095ff;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  box-shadow: rgba(255, 255, 255, .4) 0 1px 0 0 inset;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  margin: 3px;
+  padding:3px;
 }
 
-ul {
-    list-style-type: none;
-    margin: auto;
-    padding: auto;
-    overflow: hidden;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    border-radius: auto;
-  }
+button:hover,
+button:focus {
+  background-color: #07c;
+}
+
+button:focus {
+  box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ccc;
+}
+th {
+  background-color: #28a745;
+  color: white;
+}
+
 input{
   margin: 5px;
   padding: 5px;
@@ -104,13 +117,13 @@ input{
 }
 img{
   margin:4px;
-  width: 400px;
-  height: 330px;
+  width: 100px;
+  height: 100px;
 }
 
 form{
-  width:600px;
-  height: 600px;
+  width:700px;
+  height: 700px;
   justify-self: center;
 }
 iframe{
@@ -118,25 +131,4 @@ iframe{
   width: 400px;
   height: 330px;
 }
-@media  screen and (max-width:700px) {
-  img{
-    display:none;
-  }
-  iframe{
-    display:none; 
-  }
 
-  body{
-  background-color: whitesmoke;
-  color:black;
-  text-shadow:
-  1px 1px 2px rgba(182, 194, 16, 0.848),
-  0 0 1em rgb(228, 69, 6),
-  0 0 0.2em rgb(104, 11, 176);
-  background-attachment: fixed;
-  }
-
-  .card{
-    background-color: darkgrey;
-  }
-}

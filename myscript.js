@@ -89,92 +89,83 @@ document.addEventListener("DOMContentLoaded", () => {
   const materials = []; // Array to store material data
 
   // Function to calculate stock and check re-order level
-  function checkReorderLevel(material) {
+  function checkReorderLevel(material) 
+  {
     const remainingStock = material.physicalQty - material.reservedQty;
-    if (remainingStock <= material.reorderLevel) {
-      alert(
-        `Material ID: ${material.id} is running low on stock! Please restock immediately.`
-      );
+    if (remainingStock <= material.reorderLevel) 
+    {
+      alert(`Material ID: ${material.id} is running low on stock! Please restock immediately.`);
     }
   }
 
   // Function to handle material form submission
-  if (materialForm) {
-    materialForm.addEventListener("submit", function (e) {
-      e.preventDefault(); // Prevent form submission
+  if (materialForm) 
+    {
+      materialForm.addEventListener("submit", function (e) 
+      {
+        e.preventDefault(); // Prevent form submission
 
-      // Collect form data
-      const materialID = materialForm.elements[0].value.trim();
-      const materialName = materialForm.elements[1].value.trim();
-      const physicalQty = parseInt(materialForm.elements[2].value.trim());
-      const reservedQty = parseInt(materialForm.elements[3].value.trim());
-      const unit = materialForm.elements[4].value.trim();
-      const reorderLevel = parseInt(materialForm.elements[5].value.trim());
+        // Collect form data
+        const materialID = materialForm.elements[0].value.trim();
+        const materialName = materialForm.elements[1].value.trim();
+        const physicalQty = parseInt(materialForm.elements[2].value.trim());
+        const reservedQty = parseInt(materialForm.elements[3].value.trim());
+        const unit = materialForm.elements[4].value.trim();
+        const reorderLevel = parseInt(materialForm.elements[5].value.trim());
 
-      // Validate form fields
-      if (
-        !materialID ||
-        !materialName ||
-        isNaN(physicalQty) ||
-        isNaN(reservedQty) ||
-        !unit ||
-        isNaN(reorderLevel)
-      ) {
-        alert("Please fill in all required fields with valid data.");
-        return;
-      }
+        // Validate form fields
+        if (!materialID || !materialName || isNaN(physicalQty) || isNaN(reservedQty) || !unit || isNaN(reorderLevel)) 
+        {
+          alert("Please fill in all required fields with valid data.");
+          return;
+      
+        }
 
-      // Reserved quantity must not exceed physical quantity
-      if (reservedQty > physicalQty) {
-        alert("Reserved quantity cannot exceed physical quantity.");
-        return;
-      }
+        // Reserved quantity must not exceed physical quantity
+        if (reservedQty > physicalQty) 
+        {
+          alert("Reserved quantity cannot exceed physical quantity.");
+          return;
+        }
 
-      // Add material data to the materials array
-      const material = {
-        id: materialID,
-        name: materialName,
-        physicalQty,
-        reservedQty,
-        unit,
-        reorderLevel,
-      };
-      materials.push(material);
+        // Add material data to the materials array
+        const material = {id: materialID, name: materialName, physicalQty, reservedQty, unit, reorderLevel,};
+        materials.push(material);
 
-      // Check if material needs to be restocked
-      checkReorderLevel(material);
+        // Check if material needs to be restocked
+        checkReorderLevel(material);
 
-      // Display submitted material data
-      const orderRecords = document.getElementById("order-records");
-      const materialInfo = `
-        <div class="record">
-          <p><strong>Material ID:</strong> ${materialID}</p>
-          <p><strong>Material Name:</strong> ${materialName}</p>
-          <p><strong>Physical Quantity:</strong> ${physicalQty}</p>
-          <p><strong>Reserved Quantity:</strong> ${reservedQty}</p>
-          <p><strong>Unit:</strong> ${unit}</p>
-          <p><strong>Re-order Level:</strong> ${reorderLevel}</p>
-        </div>
-      `;
-      orderRecords.innerHTML += materialInfo;
+        // Display submitted material data
+        const orderRecords = document.getElementById("order-records");
+        const materialInfo = `
+          <div class="record">
+            <p><strong>Material ID:</strong> ${materialID}</p>
+            <p><strong>Material Name:</strong> ${materialName}</p>
+            <p><strong>Physical Quantity:</strong> ${physicalQty}</p>
+            <p><strong>Reserved Quantity:</strong> ${reservedQty}</p>
+            <p><strong>Unit:</strong> ${unit}</p>
+            <p><strong>Re-order Level:</strong> ${reorderLevel}</p>
+          </div>
+        `;
+        orderRecords.innerHTML += materialInfo;
 
-      // Clear form fields
-      materialForm.reset();
-    });
-  }
+        // Clear form fields
+        materialForm.reset();
+      });
+    }
 
   // Function to calculate stock and check re-order level
-function checkReorderLevel(material) 
-{
-  const remainingStock = material.physicalQty - material.reservedQty;
-  if (remainingStock <= material.reorderLevel) 
-    {
-    alert
-    (
-      `Material ID: ${material.id} is running low on stock! Please restock immediately.`
-    );
+  function checkReorderLevel(material) 
+  {
+    const remainingStock = material.physicalQty - material.reservedQty;
+    if (remainingStock <= material.reorderLevel) 
+      {
+        alert
+        (
+          `Material ID: ${material.id} is running low on stock! Please restock immediately.`
+        );
+      }
   }
-}
 
   // Function to handle orders and update reserved quantity
   const itemForm = document.getElementById("Required Item information");
@@ -182,59 +173,57 @@ function checkReorderLevel(material)
     {
       itemForm.addEventListener("submit", function (e) 
       {
-      e.preventDefault(); // Prevent form submission
+        e.preventDefault(); // Prevent form submission
 
-      // Collect form data
-      const productID = itemForm.elements[0].value.trim();
-      const productName = itemForm.elements[1].value.trim();
-      const materialID = itemForm.elements[5].value.trim();
-      const materialQty = parseInt(itemForm.elements[6].value.trim());
+        // Collect form data
+        const productID = itemForm.elements[0].value.trim();
+        const productName = itemForm.elements[1].value.trim();
+        const materialID = itemForm.elements[5].value.trim();
+        const materialQty = parseInt(itemForm.elements[6].value.trim());
 
-      // Validate form fields
-      if (!productID || !productName || !materialID || isNaN(materialQty)) 
+        // Validate form fields
+        if (!productID || !productName || !materialID || isNaN(materialQty)) 
         {
           alert("Please fill in all required fields with valid data.");
           return;
         }
 
-      // Check if material exists
-      const material = materials.find((mat) => mat.id === materialID);
-      if (!material) 
+        // Check if material exists
+        const material = materials.find((mat) => mat.id === materialID);
+        if (!material) 
         {
           alert(`Material ID: ${materialID} does not exist.`);
           return;
         }
 
-      // Update reserved quantity
-      if (material.reservedQty + materialQty > material.physicalQty) 
-      {
-        alert(
-          `Insufficient stock for Material ID: ${materialID}. Cannot reserve more than available stock.`
-        );
-        return;
-      }
-      material.reservedQty += materialQty;
+        // Update reserved quantity
+        if (material.reservedQty + materialQty > material.physicalQty) 
+        {
+          alert(
+            `Insufficient stock for Material ID: ${materialID}. Cannot reserve more than available stock.`
+          );
+         return;
+        }
+        material.reservedQty += materialQty;
 
-      // Check if material needs to be restocked
-      checkReorderLevel(material);
+        // Check if material needs to be restocked
+        checkReorderLevel(material);
 
-      // Display order confirmation
-      const orderRecords = document.getElementById("order-records");
-      const orderInfo = `
-        <div class="record">
-          <p><strong>Product ID:</strong> ${productID}</p>
-          <p><strong>Product Name:</strong> ${productName}</p>
-          <p><strong>Material ID:</strong> ${materialID}</p>
-          <p><strong>Reserved Quantity for Order:</strong> ${materialQty}</p>
-        </div>
-      `;
-      orderRecords.innerHTML += orderInfo;
+        // Display order confirmation
+        const orderRecords = document.getElementById("order-records");
+        const orderInfo = `
+          <div class="record">
+            <p><strong>Product ID:</strong> ${productID}</p>
+            <p><strong>Product Name:</strong> ${productName}</p>
+            <p><strong>Material ID:</strong> ${materialID}</p>
+            <p><strong>Reserved Quantity for Order:</strong> ${materialQty}</p>
+          </div>
+        `;
+        orderRecords.innerHTML += orderInfo;
 
-      // Clear form fields
-      itemForm.reset();
+        // Clear form fields
+        itemForm.reset();
+      });
     }
-  );
-  
-}
-}
+  }
 );

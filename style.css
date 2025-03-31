@@ -1,7 +1,7 @@
 body{
   display:flex;
   flex-wrap: wrap;
-  background-image:url("Background.jpg");
+  background-image:url("./Picture/Background.jpg");
   background-size:cover;
   color:rgb(12, 3, 27);
   text-shadow:
@@ -106,14 +106,15 @@ th, td {
   border: 1px solid #ccc;
 }
 th {
-  background-color: #28a745;
-  color: white;
+  background-color: #081ac0;
+  color: rgb(249, 240, 150);
 }
 
 input{
-  margin: 5px;
+  margin: 10px;
   padding: 5px;
   border-radius: 10px;
+  width:fill;
 }
 img{
   margin:4px;

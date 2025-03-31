@@ -63,13 +63,7 @@ function deleteOrder(orderId, deliveryDate) {
       return;
   }
 
-  const confirmation = confirm('Are you sure you want to delete this order?');
-  if (confirmation) {
-      // Simulate order deletion logic
-      alert('Order deleted successfully');
-      // Update material quantity logic here
   }
-}
 
 function manageProducts() {
   alert('Manage Products Functionality');
@@ -78,3 +72,4 @@ function manageProducts() {
 function updateOrders() {
   alert('Update Orders Functionality');
 }
+

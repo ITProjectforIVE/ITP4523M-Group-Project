@@ -4,15 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="myscript.js"></script>
-    <script src="ProductList.js"></script>
+    <script src="productList.js"></script>
     <title>Customer Order Management</title>
 </head>
 <body>
 <div class="navbar">
 <ul>
 <li><a  href="index.html">Home</a></li>
-<li><a  href="Profile.html">Profile</a></li>
 <li><a  href="Staff.html">Staff</a></li>
 <li><a  href="order.html">Order</a></li>
 <li><a  href="customer.html">Customer</a></li>
@@ -22,11 +20,9 @@
 
 <main>
     <h1>Welcome to Our Product Store</h1>
-    <section id="products">
         <h2>Available Products</h2>
         <div class="card">
-        <div id="product-list">
-            <table id="Product-table">
+            <table id="product-table">
                 <thead>
                     <tr>
                         <th>Product ID</th>
@@ -40,9 +36,11 @@
                     
                 </tbody>
             </table>
+            <button onclick="location='CustomerBuy.html'">Make order</button>
         </div>
-    </div>
-    </section>
+        <div d="message">
+
+        </div>
 </main>  
 </body>
 </html>

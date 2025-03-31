@@ -4,21 +4,21 @@ const orders = [
         productName: 'Dragon Slayer Sword',
         productImage: './Picture/DragonSlayer.jpg',
         orderQuantity: 2,
-        price: 100 // Price per item
+        price: 450 
     },
     {
         orderId: 2,
         productName: 'TNT Bomb',
         productImage: './Picture/TNT.jpeg',
         orderQuantity: 1,
-        price: 150 // Price per item
+        price: 150 
     },
     {
         orderId: 3,
-        productName: 'Product C',
-        productImage: 'https://via.placeholder.com/50',
-        orderQuantity: 5,
-        price: 200 // Price per item
+        productName: 'Chiikawa',
+        productImage: './Picture/Chiikawa.jpg',
+        orderQuantity: 2,
+        price: 200 
     }
 ];
 

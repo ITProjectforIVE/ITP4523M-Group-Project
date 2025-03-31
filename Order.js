@@ -69,5 +69,7 @@ function updateOrder(orderId) {
         populateOrdersTable();
     }
 }
-
+function AddOrder(){
+    document.getElementsByClassName("orders-table");
+}
 document.addEventListener('DOMContentLoaded', populateOrdersTable);

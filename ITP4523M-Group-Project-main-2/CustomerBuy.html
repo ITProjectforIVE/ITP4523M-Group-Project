@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="myscript.js"></script>
+    <script src="CustomerBuy.js"></script>
+    <title>Customer Order Management</title>
+</head>
+<body>
+        <div class="navbar">
+<ul>
+<li><a  href="index.html">Home</a></li>
+<li><a  href="Profile.html">Profile</a></li>
+<li><a  href="Staff.html">Staff</a></li>
+<li><a  href="order.html">Order</a></li>
+<li><a  href="customer.html">Customer</a></li>
+<li><a  href="Report.html">Report</a></li>
+</ul>  
+            </div>
+<main>
+    <h1>Welcome to Our Product Store</h1>
+    <section id="orders">
+        <div class="card">
+            <h2>Create an Order</h2>
+        <form id="order-form">
+            <input type="text" placeholder="Customer Name" required>
+            <br />
+            <input type="password" placeholder="Password" required>
+            <br />
+            <input type="tel" placeholder="Telephone" required>
+            <br />
+            <input type="text" placeholder="Address" required>
+            <br />
+            <input type="text" placeholder="Company Name" required>
+            <br />
+            <input id="product-select" placeholder="product Id" required></input>
+            <br />
+            <input type="number" placeholder="Order Quantity" required>
+            <br />
+            <button type="submit" onclick="MakeOrder()">Place Order</button>
+            <button type="reset" onclick="deleteOrder()">Cancel Order</button>
+        </form>
+    </div>
+        <div id="order-status"></div>
+    </section>
+</main>  
+</body>
+</html>

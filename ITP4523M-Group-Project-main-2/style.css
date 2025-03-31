@@ -1,0 +1,134 @@
+body{
+  display:flex;
+  flex-wrap: wrap;
+  background-image:url("./Picture/Background.jpg");
+  background-size:cover;
+  color:rgb(12, 3, 27);
+  text-shadow:
+  1px 1px 2px rgba(1, 68, 175, 0.955),
+  0 0 1em rgb(255, 225, 0),
+  0 0 0.2em rgb(10, 206, 39);
+  background-attachment: fixed;
+  font-size:18px;
+  font-family: Arial, sans-serif;
+}
+
+ul {
+  list-style-type: none;
+  margin: auto;
+  padding: auto;
+  overflow: hidden;
+  background-color: #27272a;
+  position:fixed;
+  width: auto;
+  top:0;
+  left:0;
+  right:0;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: rgb(0, 2, 3);
+}
+.navbar{
+  position: fill;
+  top:20%;
+  bottom: 20%;
+  width: 100%;
+}
+main{
+    padding: 20px; 
+    margin: 20px;
+    justify-content: center;
+    align-items:center;
+}
+
+.card { 
+  display:block;
+  flex-direction: column;
+  background: rgb(74, 72, 72);
+  color:aliceblue;
+  width: fill;
+  height: fill;
+  border-radius: 5px;
+  border:#040c31 2px solid;
+  box-shadow:1px 1px 2px rgb(16, 209, 71),
+  0 0 1em rgb(191, 136, 19),
+  0 0 0.2em rgba(36, 123, 5, 0.453);
+  margin: 10px;
+  padding: 10px;
+}
+
+button {
+  background-color: #0095ff;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  box-shadow: rgba(255, 255, 255, .4) 0 1px 0 0 inset;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  margin: 3px;
+  padding:3px;
+}
+
+button:hover,
+button:focus {
+  background-color: #07c;
+}
+
+button:focus {
+  box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ccc;
+}
+th {
+  background-color: #081ac0;
+  color: rgb(249, 240, 150);
+}
+
+input{
+  margin: 5px;
+  padding: 5px;
+  border-radius: 10px;
+}
+img{
+  margin:4px;
+  width: 100px;
+  height: 100px;
+}
+
+form{
+  width:700px;
+  height: 700px;
+  justify-self: center;
+}
+iframe{
+  margin:4px;
+  width: 400px;
+  height: 330px;
+}
+

@@ -4,7 +4,7 @@ $database = "projectDB";
 $username = "root";
 $password = "";
 // Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($hostname, $username, $password, $database);
 
 // Check connection
 if ($conn->connect_error) {

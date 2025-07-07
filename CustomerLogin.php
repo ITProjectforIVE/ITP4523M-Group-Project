@@ -24,7 +24,7 @@
             document.getElementById('message').textContent = data.message;
             if (data.success) {
                 // Redirect to another page or perform another action
-                window.location.href = 'dashboard.html';
+                window.location.href = 'profile.html';
             }
         })
         .catch(error => {
@@ -62,34 +62,26 @@ $hostname = "127.0.0.1";
 $database = "projectDB";
 $username = "root";
 $password = "";
-
 // Create connection
-$conn = new mysqli($hostname, $username, $password, $database);
-
+$conn = new mysqli($hostname, $database, $username, $password);
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
 header('Content-Type: application/json');
-
 // Get JSON input
 $data = json_decode(file_get_contents("php://input"), true);
 $username = $data['username'];
 $password = $data['password'];
-
 $response = ['success' => false, 'message' => 'Invalid username or password.'];
-
 // Prepare and bind
 $stmt = $conn->prepare("SELECT password FROM users WHERE username = ?");
 $stmt->bind_param("s", $username);
 $stmt->execute();
 $stmt->store_result();
-
 if ($stmt->num_rows > 0) {
     $stmt->bind_result($hashed_password);
     $stmt->fetch();
-    
     // Verify password (assuming passwords are hashed)
     if (password_verify($password, $hashed_password)) {
         // Set a cookie for the user session
@@ -97,7 +89,6 @@ if ($stmt->num_rows > 0) {
         $response = ['success' => true, 'message' => 'Login successful!'];
     }
 }
-
 $stmt->close();
 $conn->close();
 

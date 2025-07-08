@@ -1,9 +1,8 @@
 <?php
 session_start();
 
-// Check
-if (!isset($_COOKIE['cid'])) 
-{
+// Check if the 'cid' cookie exists
+if (!isset($_COOKIE['cid'])) {
     header("Location: CustomerLogin.php");
     exit;
 }
@@ -12,9 +11,9 @@ if (!isset($_COOKIE['cid']))
 $cid = $_COOKIE['cid'];
 setcookie('cid', $cid, time() + 3600, '/');
 
+// Establish database connection
 $conn = new mysqli('127.0.0.1', 'root', '', 'projectDB');
-if ($conn->connect_error) 
-{
+if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
@@ -30,48 +29,40 @@ if ($result->num_rows === 0) {
 }
 
 // Handle order cancellation
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_order'])) 
-{
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_order'])) {
     $oid = $_POST['cancel_order'];
 
     // Check if the order can be canceled
-    $sql = "SELECT odeliverydate FROM orders WHERE oid = ? AND cid = ?";
+    $sql = "SELECT odeliverdate FROM orders WHERE oid = ? AND cid = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ii", $oid, $cid);
     $stmt->execute();
     $result = $stmt->get_result();
     $order = $result->fetch_assoc();
 
-    if ($order) 
-    {
+    if ($order) {
         $currentDate = new DateTime();
-        $deliveryDate = isset($order['odeliverydate']) && !is_null($order['odeliverydate']) ? new DateTime($order['odeliverydate']) : null;
+        $deliveryDate = isset($order['odeliverdate']) && !is_null($order['odeliverdate']) ? new DateTime($order['odeliverdate']) : null;
 
         if ($deliveryDate && $deliveryDate > $currentDate && $currentDate->diff($deliveryDate)->days >= 2) {
-            // Delete
+            // Delete the order
             $sql = "DELETE FROM orders WHERE oid = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("i", $oid);
-            if ($stmt->execute()) 
-            {
+            if ($stmt->execute()) {
                 $message = "Order canceled successfully.";
-            } 
-            else 
-            {
+            } else {
                 $message = "Failed to cancel the order. Please try again.";
             }
-        } 
-        else 
-        {
+        } else {
             $message = "Order cannot be canceled as it is less than 2 days before the delivery date.";
         }
-    } 
-    else {
+    } else {
         $message = "Order not found.";
     }
 }
 
-// Fetch all orders
+// Fetch all orders for the customer
 $sql = "SELECT * FROM orders WHERE cid = ? ORDER BY odate DESC";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $cid);
@@ -122,30 +113,31 @@ $conn->close();
                         </tr>
                     </thead>
                     <tbody>
-                    <?php while ($order = $result->fetch_assoc()): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($order['oid']) ?></td>
-                        <td><?= htmlspecialchars($order['odate']) ?></td>
-                        <td><?= htmlspecialchars($order['pid']) ?></td>
-                        <td><?= htmlspecialchars($order['oqty']) ?></td>
-                        <td><?= htmlspecialchars($order['ocost']) ?></td>
-                        <td><?= !empty($order['odeliverdate']) ? htmlspecialchars($order['odeliverdate']) : '' ?></td>
-                        <td><?= htmlspecialchars($order['ostatus']) ?></td>
-        <td>
-            <?php
-            $currentDate = new DateTime();
-            $deliveryDate = !empty($order['odeliverdate']) ? new DateTime($order['odeliverdate']) : null;
+                        <?php while ($order = $result->fetch_assoc()): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($order['oid']) ?></td>
+                                <td><?= htmlspecialchars($order['odate']) ?></td>
+                                <td><?= htmlspecialchars($order['pid']) ?></td>
+                                <td><?= htmlspecialchars($order['oqty']) ?></td>
+                                <td><?= htmlspecialchars($order['ocost']) ?></td>
+                                <!-- Delivery Date (Date + Time) -->
+                                <td><?= !empty($order['odeliverdate']) ? htmlspecialchars($order['odeliverdate']) : '' ?></td>
+                                <td><?= htmlspecialchars($order['ostatus']) ?></td>
+                                <td>
+                                    <?php
+                                    $currentDate = new DateTime();
+                                    $deliveryDate = !empty($order['odeliverdate']) ? new DateTime($order['odeliverdate']) : null;
 
-            if ($deliveryDate && $deliveryDate > $currentDate && $currentDate->diff($deliveryDate)->days >= 2): ?>
-                <form method="POST" style="display: inline;">
-                    <button type="submit" name="cancel_order" value="<?= $order['oid'] ?>" onclick="return confirm('Are you sure you want to cancel this order?')">Cancel</button>
-                </form>
-            <?php else: ?>
-                <button disabled>Cannot Cancel</button>
-            <?php endif; ?>
-        </td>
-    </tr>
-<?php endwhile; ?>
+                                    if ($deliveryDate && $deliveryDate > $currentDate && $currentDate->diff($deliveryDate)->days >= 2): ?>
+                                        <form method="POST" style="display: inline;">
+                                            <button type="submit" name="cancel_order" value="<?= $order['oid'] ?>" onclick="return confirm('Are you sure you want to cancel this order?')">Cancel</button>
+                                        </form>
+                                    <?php else: ?>
+                                        <button disabled>Cannot Cancel</button>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
                     </tbody>
                 </table>
             <?php else: ?>

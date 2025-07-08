@@ -1,27 +1,26 @@
 <?php
-// 开启会话以读取 Cookie
 session_start();
 
-// 检查是否存在 "cid" Cookie
+// Check if "cid" Cookie exists
 if (!isset($_COOKIE['cid'])) {
-    // 如果未检测到 "cid" Cookie，跳转到登录页面
+    // Redirect to login page if "cid" is not found
     header("Location: CustomerLogin.php");
     exit;
 }
 
-// 获取 "cid" 的值
+// Get "cid" value
 $cid = $_COOKIE['cid'];
 
-// 重置 Cookie 时间为 1 小时
+// Reset Cookie time to 1 hour
 setcookie('cid', $cid, time() + 3600, '/');
 
-// 数据库连接
+// Database connection
 $conn = new mysqli('127.0.0.1', 'root', '', 'projectDB');
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// 根据 "cid" 查询当前客户的信息
+// Query customer information by "cid"
 $sql = "SELECT cname, cpassword, ctel, caddr, company FROM customer WHERE cid = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $cid);
@@ -29,13 +28,13 @@ $stmt->execute();
 $result = $stmt->get_result();
 $customer = $result->fetch_assoc();
 
-// 如果客户不存在，跳转到登录页面
+// If customer does not exist, redirect to login page
 if (!$customer) {
     header("Location: CustomerLogin.php");
     exit;
 }
 
-// 关闭数据库连接
+// Close database connection
 $conn->close();
 ?>
 
@@ -47,7 +46,7 @@ $conn->close();
     <link rel="stylesheet" href="style.css">
     <title>Edit Customer Profile</title>
     <script>
-        // 显示/隐藏密码功能
+        // Toggle password visibility
         function togglePasswordVisibility() {
             const passwordField = document.getElementById('cpassword');
             const toggleButton = document.getElementById('togglePassword');
@@ -60,7 +59,7 @@ $conn->close();
             }
         }
 
-        // 显示成功提示框
+        // Show success message
         function showSuccessMessage() {
             alert('Customer information updated successfully!');
         }
@@ -80,10 +79,11 @@ $conn->close();
     <main>
         <h1>Edit Customer Information</h1>
         <div class="card">
-            <!-- 表单提交到自己 -->
+            <!-- Form submission -->
             <form id="profile-form" action="profile.php" method="post" onsubmit="showSuccessMessage();">
                 <label for="cname">Customer Name:</label>
-                <input type="text" id="cname" name="cname" value="<?= htmlspecialchars($customer['cname']) ?>" required>
+                <!-- Lock this field -->
+                <input type="text" id="cname" name="cname" value="<?= htmlspecialchars($customer['cname']) ?>" readonly>
                 <br />
 
                 <label for="cpassword">Password:</label>
@@ -100,7 +100,8 @@ $conn->close();
                 <br />
 
                 <label for="company">Company Name:</label>
-                <input type="text" id="company" name="company" value="<?= htmlspecialchars($customer['company']) ?>" required>
+                <!-- Lock this field -->
+                <input type="text" id="company" name="company" value="<?= htmlspecialchars($customer['company']) ?>" readonly>
                 <br />
 
                 <button type="submit">Confirm</button>
@@ -109,31 +110,29 @@ $conn->close();
     </main>
 
     <?php
-    // 处理表单提交逻辑
+    // Process form submission
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // 获取表单提交的数据
-        $cname = $_POST['cname'];
+        // Get submitted data
         $cpassword = $_POST['cpassword'];
         $ctel = $_POST['ctel'];
         $caddr = $_POST['caddr'];
-        $company = $_POST['company'];
 
-        // 数据库连接
+        // Database connection
         $conn = new mysqli('127.0.0.1', 'root', '', 'projectDB');
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
 
-        // 更新客户信息
-        $sql = "UPDATE customer SET cname = ?, cpassword = ?, ctel = ?, caddr = ?, company = ? WHERE cid = ?";
+        // Update customer information (only password, telephone, and address)
+        $sql = "UPDATE customer SET cpassword = ?, ctel = ?, caddr = ? WHERE cid = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssssi", $cname, $cpassword, $ctel, $caddr, $company, $cid);
+        $stmt->bind_param("sssi", $cpassword, $ctel, $caddr, $cid);
         $stmt->execute();
 
-        // 关闭数据库连接
+        // Close database connection
         $conn->close();
 
-        // 重定向到 CustomerBuy.php
+        // Redirect to CustomerBuy.php
         header("Location: CustomerBuy.php");
         exit;
     }

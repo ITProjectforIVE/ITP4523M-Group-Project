@@ -61,13 +61,27 @@ $hostname = "127.0.0.1";
 $database = "projectDB";
 $username = "root";
 $password = "";
+
 $conn = new mysqli($hostname, $username, $password, $database);
-$sql = "SELECT * FROM customer";
-$result = mysqli_query($conn,$sql);
-while ($rc = mysqli_fetch_assoc($result)){
-    $customer[] = $rc;
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
-echo json_encode($customer);
+
+$sql = "SELECT * FROM customer";
+$result = $conn->query($sql);
+
+$customer = [];
+if ($result) {
+    while ($rc = $result->fetch_assoc()) {
+        $customer[] = $rc;
+    }
+    echo json_encode($customer);
+} else {
+    echo "Error: " . $conn->error;
+}
+
+$conn->close();
 ?>
         <div id="message"></div>
     </div>

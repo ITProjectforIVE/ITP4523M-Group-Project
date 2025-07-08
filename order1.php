@@ -1,180 +1,145 @@
 <?php
-// 开始会话
 session_start();
-
-// 检查是否存在 "cid" cookie
-if (!isset($_COOKIE['cid'])) {
-    header("Location: CustomerLogin.php");
-    exit;
-}
-
-// 获取 "cid" 并重置 cookie 过期时间
-$cid = $_COOKIE['cid'];
-setcookie('cid', $cid, time() + 3600, '/');
-
-// 连接数据库
 $conn = new mysqli('127.0.0.1', 'root', '', 'projectDB');
 if ($conn->connect_error) {
-    die("数据库连接失败: " . $conn->connect_error);
+    die("Database connection failed: " . $conn->connect_error);
 }
 
-// 验证 "cid" 是否存在于数据库
-$sql = "SELECT * FROM customer WHERE cid = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $cid);
-$stmt->execute();
-$result = $stmt->get_result();
-if ($result->num_rows === 0) {
+// Check if `cid` exists in cookies and validate it against the database
+if (!isset($_COOKIE['cid'])) {
     header("Location: CustomerLogin.php");
-    exit;
+    exit();
+}
+$cid = $_COOKIE['cid'];
+$cid_query = "SELECT * FROM customer WHERE cid = $cid";
+$cid_result = $conn->query($cid_query);
+if ($cid_result->num_rows === 0) {
+    header("Location: CustomerLogin.php");
+    exit();
 }
 
-// 获取 "pid" 参数
+// Reset cookie
+setcookie("cid", $cid, time() + 3600);
+
+// Get `pid` from URL
 if (!isset($_GET['pid'])) {
-    die("缺少产品 ID 参数。");
+    die("Product ID not provided.");
 }
 $pid = $_GET['pid'];
 
-// 自动生成唯一的 "oid"
-do {
-    $oid = rand(1000, 9999); // 随机生成订单 ID
-    $sql = "SELECT * FROM orders WHERE oid = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $oid);
-    $stmt->execute();
-    $result = $stmt->get_result();
-} while ($result->num_rows > 0);
-
-// 从产品表中获取指定产品的详细信息
-$sql = "SELECT pname, pcost FROM product WHERE pid = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $pid);
-$stmt->execute();
-$product_result = $stmt->get_result();
+// Fetch product price for real-time cost calculation
+$product_query = "SELECT pcost FROM product WHERE pid = $pid";
+$product_result = $conn->query($product_query);
 if ($product_result->num_rows === 0) {
-    die("未找到指定的产品记录。");
+    die("Invalid Product ID.");
 }
 $product = $product_result->fetch_assoc();
-$pname = $product['pname'];
 $pcost = $product['pcost'];
 
-// 处理表单提交
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') 
+{
     $oqty = $_POST['oqty'];
-    $odeliverydate = $_POST['odeliverydate'];
+    $odeliverdate = $_POST['odeliverdate'];
 
-    // 验证用户输入
-    if ($oqty <= 0) {
-        $error = "订单数量必须大于 0。";
-    } elseif (empty($odeliverydate)) {
-        $error = "交货日期是必填项。";
-    } else {
-        $currentDate = date('Y-m-d H:i:s');
-        if ($odeliverydate <= $currentDate) {
-            $error = "交货日期必须晚于当前日期。";
-        } else {
-            $ocost = $pcost * $oqty; // 计算订单总价
-            $ostatus = 1; // 默认订单状态为 "Open"
+    // Validate quantity and delivery date
+    if ($oqty <= 0) 
+    {
+        $error_message = "Order quantity must be greater than 0.";
+    } elseif (strtotime($odeliverdate) <= time()) 
+    {
+        $error_message = "Delivery date must be in the future.";
+    } else 
+    {
+        // Calculate cost
+        $ocost = $oqty * $pcost;
+        $odate = date('Y-m-d H:i:s');
 
-            // 将订单插入到数据库
-            $sql = "INSERT INTO orders (oid, odate, pid, oqty, ocost, cid, odeliverydate, ostatus) 
-                    VALUES (?, NOW(), ?, ?, ?, ?, ?, ?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("iiidisi", $oid, $pid, $oqty, $ocost, $cid, $odeliverydate, $ostatus);
-            if ($stmt->execute()) {
-                header("Location: ViewOrder.php");
-                exit;
-            } else {
-                $error = "订单保存失败，请重试。";
-            }
+        // Generate unique `oid`
+        do 
+        {
+            $oid = rand(1000, 9999);
+            $oid_query = "SELECT * FROM orders WHERE oid = $oid";
+            $oid_result = $conn->query($oid_query);
+        } while ($oid_result->num_rows > 0);
+
+        // Insert order into database
+        $insert_query = "INSERT INTO orders (oid, odate, pid, oqty, ocost, cid, odeliverdate, ostatus)
+                         VALUES ($oid, '$odate', $pid, $oqty, $ocost, $cid, '$odeliverdate', 1)";
+        if ($conn->query($insert_query) === TRUE) 
+        {
+            header("Location: ViewOrder.php");
+            exit();
+        } 
+        else 
+        {
+            $error_message = "Failed to place order: " . $conn->error;
         }
     }
 }
-
-$conn->close();
 ?>
 
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place Order</title>
     <link rel="stylesheet" href="style.css">
-    <title>添加订单</title>
+    <script>
+        function calculateCost() 
+        {
+            const oqty = document.getElementById('oqty').value;
+            const pcost = <?= $pcost ?>;
+            const ocost = oqty > 0 ? (oqty * pcost).toFixed(2) : 0;
+            document.getElementById('ocost').value = ocost;
+        }
+    </script>
 </head>
 <body>
     <div class="navbar">
         <ul>
-            <li><a href="index.html">主页</a></li>
-            <li><a href="productList.html">产品列表</a></li>
-            <li><a href="CustomerBuy.php">购买</a></li>
-            <li><a href="profile.php">客户资料</a></li>
-            <li><a href="ViewOrder.php">查看订单</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="CustomerBuy.php">Buy</a></li>
+            <li><a href="ViewOrder.php">Orders</a></li>
         </ul>
     </div>
 
     <main>
-        <h1>添加订单</h1>
+        <h1>Place Your Order</h1>
         <div class="card">
-            <?php if (!empty($error)): ?>
-                <p style="color: red;"><?= htmlspecialchars($error) ?></p>
+            <?php if (isset($error_message)): ?>
+                <p style="color: red;"><?= $error_message ?></p>
             <?php endif; ?>
-            <form method="POST">
-                <table>
-                    <tr>
-                        <th>订单编号</th>
-                        <td><?= htmlspecialchars($oid) ?></td>
-                    </tr>
-                    <tr>
-                        <th>客户编号</th>
-                        <td><?= htmlspecialchars($cid) ?></td>
-                    </tr>
-                    <tr>
-                        <th>产品名称</th>
-                        <td><?= htmlspecialchars($pname) ?></td>
-                    </tr>
-                    <tr>
-                        <th>产品价格</th>
-                        <td><?= htmlspecialchars($pcost) ?></td>
-                    </tr>
-                    <tr>
-                        <th>订单数量</th>
-                        <td>
-                            <input type="number" name="oqty" id="oqty" min="1" required
-                                   oninput="calculateCost()" value="<?= isset($oqty) ? htmlspecialchars($oqty) : 1 ?>">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>订单总价</th>
-                        <td id="ocost"><?= isset($oqty) ? htmlspecialchars($pcost * $oqty) : $pcost ?></td>
-                    </tr>
-                    <tr>
-                        <th>交货日期</th>
-                        <td>
-                            <input type="datetime-local" name="odeliverydate" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>订单状态</th>
-                        <td>Open</td>
-                    </tr>
-                </table>
-                <button type="submit">提交订单</button>
+            <form method="POST" action="order1.php?pid=<?= $pid ?>">
+                <label for="oid">Order ID:</label>
+                <input type="text" id="oid" name="oid" value="Auto-generated" disabled>
+
+                <label for="odate">Order Date:</label>
+                <input type="text" id="odate" name="odate" value="<?= date('Y-m-d H:i:s') ?>" disabled>
+
+                <label for="pid">Product ID:</label>
+                <input type="text" id="pid" name="pid" value="<?= $pid ?>" disabled>
+
+                <label for="cid">Customer ID:</label>
+                <input type="text" id="cid" name="cid" value="<?= $cid ?>" disabled>
+
+                <label for="oqty">Order Quantity:</label>
+                <input type="number" id="oqty" name="oqty" oninput="calculateCost()" required>
+
+                <label for="ocost">Order Cost:</label>
+                <input type="text" id="ocost" name="ocost" value="0.00" disabled>
+
+                <label for="odeliverdate">Delivery Date:</label>
+                <input type="datetime-local" id="odeliverdate" name="odeliverdate" required>
+
+                <button type="submit">Confirm Order</button>
             </form>
         </div>
     </main>
-
-    <script>
-        function calculateCost() {
-            const oqty = document.getElementById('oqty').value;
-            const pcost = <?= $pcost ?>;
-            const ocost = document.getElementById('ocost');
-            if (oqty > 0) {
-                ocost.textContent = (pcost * oqty).toFixed(2);
-            } else {
-                ocost.textContent = "0.00";
-            }
-        }
-    </script>
 </body>
 </html>
+
+<?php
+$conn->close();
+?>

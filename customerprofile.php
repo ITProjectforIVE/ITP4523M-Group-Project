@@ -1,12 +1,10 @@
 <?php
 // Database connection
+$conn = new mysqli($hostname, $username, $password, $database);
 $hostname = "127.0.0.1";
+$database = "projectDB";
 $username = "root";
 $password = "";
-$database = "projectDB";
-
-$conn = new mysqli($hostname, $username, $password, $database);
-
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);

@@ -11,9 +11,9 @@
         <ul>
             <li><a href="index.html">Home</a></li>
             <li><a href="productList.html">Product</a></li>
-            <li><a href="CustomerBuy.html">Buy</a></li>
-            <li><a href="customer.html">Customer</a></li>
-            <li><a href="ViewOrder.html">Order</a></li>
+            <li><a href="CustomerBuy.php">Buy</a></li>
+            <li><a href="profile.php">Customer</a></li>
+            <li><a href="ViewOrder.php">Order</a></li>
         </ul>  
     </div>
     <main>

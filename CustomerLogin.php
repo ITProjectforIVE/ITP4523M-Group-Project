@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style/style.css">
+    <link rel="stylesheet" href="style.css">
     <title>Customer Login</title>
 </head>
 <body>
@@ -79,6 +79,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <ul>
             <li><a href="index.html">Home</a></li>
             <li><a href="productList.html">Product</a></li>
+            <li><a href="CustomerBuy.php">Buy</a></li>
+            <li><a href="profile.html">Customer</a></li>
+            <li><a href="ViewOrder.php">Order</a></li>
         </ul>
     </div>
 
@@ -136,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Handle "Create Account" button
         document.getElementById('create-account-button').addEventListener('click', function () {
-            window.location.href = 'create_order.php'; // Redirect to account creation page
+            window.location.href = 'CreateAccount.php'; // Redirect to account creation page
         });
     </script>
 </body>

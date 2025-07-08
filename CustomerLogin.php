@@ -49,7 +49,7 @@
     <main>
     <div class="card">
         <h2>Login</h2>
-        <form id="loginForm" action="customerLogin.php" method="POST">
+        <form id="loginForm" action="CustomerLogin.php" method="POST">
             <input type="text" id="username" placeholder="Username" required>
             <br />
             <input type="password" id="password" placeholder="Password" required>
